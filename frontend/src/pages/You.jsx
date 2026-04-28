@@ -64,7 +64,7 @@ function Inner() {
         <Row icon={KeyRound} title="Authentication">
           <p className="text-sm text-muted-foreground">
             We use short-lived <span className="font-mono text-foreground">JWT</span> tokens (60 min). Passwords are hashed with bcrypt.
-            Google OAuth is available on the login page.
+            Google OAuth can be enabled if your backend is configured for it.
           </p>
         </Row>
 
