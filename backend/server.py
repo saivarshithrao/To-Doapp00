@@ -51,14 +51,18 @@ api_router = APIRouter(prefix="/api")
 bearer = HTTPBearer(auto_error=False)
 
 AUTH_COOKIE_NAME = "access_token"
+# For cross-site deployment (e.g. Vercel frontend + Render backend) set COOKIE_SAMESITE=none.
+# For same-site (localhost) default to "lax". When "none", browsers require secure=True.
+COOKIE_SAMESITE = os.environ.get('COOKIE_SAMESITE', 'lax').lower()
+COOKIE_SECURE = os.environ.get('COOKIE_SECURE', 'true').lower() == 'true'
 
 def set_auth_cookie(response: Response, token: str):
     response.set_cookie(
         key=AUTH_COOKIE_NAME,
         value=token,
         httponly=True,
-        secure=True,
-        samesite="lax",
+        secure=COOKIE_SECURE,
+        samesite=COOKIE_SAMESITE,
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/",
     )
