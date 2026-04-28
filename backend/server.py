@@ -25,15 +25,25 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 # ----- Config -----
+def read_int_env(name: str, default: int) -> int:
+    raw = os.environ.get(name)
+    if raw is None or raw == "":
+        return default
+    try:
+        return int(raw)
+    except ValueError:
+        logging.warning("Invalid %s=%r; using %s", name, raw, default)
+        return default
+
 MONGO_URL = os.environ['MONGO_URL']
 DB_NAME = os.environ['DB_NAME']
 JWT_SECRET = os.environ['JWT_SECRET']
 JWT_ALG = os.environ.get('JWT_ALGORITHM', 'HS256')
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get('ACCESS_TOKEN_EXPIRE_MINUTES', '60'))
+ACCESS_TOKEN_EXPIRE_MINUTES = read_int_env('ACCESS_TOKEN_EXPIRE_MINUTES', 60)
 AES_KEY = base64.b64decode(os.environ['AES_KEY_B64'])
 DEV_MODE = os.environ.get('DEV_MODE', 'false').lower() == 'true'
 SMTP_HOST = os.environ.get('SMTP_HOST', '')
-SMTP_PORT = int(os.environ.get('SMTP_PORT', '587') or '587')
+SMTP_PORT = read_int_env('SMTP_PORT', 587)
 SMTP_USER = os.environ.get('SMTP_USER', '')
 SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD', '')
 SMTP_FROM = os.environ.get('SMTP_FROM', 'noreply@todoapp.local')
