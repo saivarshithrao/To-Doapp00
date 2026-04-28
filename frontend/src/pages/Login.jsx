@@ -33,11 +33,6 @@ export default function Login() {
     }
   };
 
-  const googleLogin = () => {
-    const redirect = encodeURIComponent(`${window.location.origin}/auth/callback`);
-    window.location.href = `https://auth.emergentagent.com/?redirect=${redirect}`;
-  };
-
   return (
     <div className="min-h-screen grid md:grid-cols-2 bg-background">
       <div className="hidden md:flex relative items-center justify-center p-12 border-r border-border bg-secondary/40 grid-bg">
@@ -77,14 +72,9 @@ export default function Login() {
             {loading ? "Signing in..." : "Sign in"}
           </Button>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
-            <div className="relative flex justify-center text-xs uppercase tracking-widest"><span className="bg-background px-2 text-muted-foreground">or</span></div>
-          </div>
-
-          <Button type="button" variant="outline" onClick={googleLogin} className="w-full" data-testid="google-login-btn">
-            Continue with Google
-          </Button>
+          <p className="text-xs text-center text-muted-foreground">
+            Google sign-in can be enabled during backend deployment if configured.
+          </p>
 
           <p className="text-sm text-center text-muted-foreground">
             New here? <Link to="/signup" className="text-primary font-medium hover:underline" data-testid="goto-signup-link">Create an account</Link>
